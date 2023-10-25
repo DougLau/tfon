@@ -1,0 +1,8 @@
+[package]
+name = "tfon"
+license = "MIT OR Apache-2.0"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+thiserror = "1"
