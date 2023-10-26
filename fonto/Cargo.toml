@@ -1,7 +1,10 @@
 [package]
-name = "tfon-cli"
+name = "fonto"
 license = "MIT OR Apache-2.0"
 version.workspace = true
 edition.workspace = true
 
 [dependencies]
+anyhow = "1.0"
+argh = "0.1"
+tfon = "0.1"

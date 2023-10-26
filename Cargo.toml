@@ -1,7 +1,10 @@
 [workspace]
-members = ["tfon", "tfon-cli"]
+members = ["tfon", "fonto"]
 resolver = "2"
 
 [workspace.package]
 version = "0.1.0"
 edition = "2021"
+
+[patch.crates-io]
+tfon = { path = "tfon" }
