@@ -49,13 +49,11 @@ impl<'p> Parser<'p> {
     fn prop(&mut self) -> Option<Prop<'p>> {
         let line = self.next_line()?;
         if let Some(end) = line.strip_prefix("[Char_") {
-            if let Some(cp) = end.strip_suffix("]") {
-                return u16::from_str(cp)
-                    .ok()
-                    .and_then(|cp| Some(Prop::CodePoint(cp)));
+            if let Some(cp) = end.strip_suffix(']') {
+                return u16::from_str(cp).ok().map(Prop::CodePoint);
             }
         }
-        match line.split_once("=") {
+        match line.split_once('=') {
             Some(("FontName", val)) => Some(Prop::FontName(val)),
             Some(("FontHeight", val)) => {
                 u8::from_str(val).ok().map(Prop::FontHeight)
@@ -102,7 +100,7 @@ impl<'p> Parser<'p> {
 /// Parse a bitmap row
 fn parse_row(line: &str) -> impl Iterator<Item = bool> + '_ {
     if line.starts_with("row") {
-        if let Some((_key, val)) = line.split_once("=") {
+        if let Some((_key, val)) = line.split_once('=') {
             return val.chars().filter_map(pixel_filter_map);
         }
     }
@@ -160,7 +158,7 @@ pub fn write<'a, W: Write>(
                 ch = false;
                 writeln!(writer)?;
                 writeln!(writer, "[Char_{cp}]")?;
-                if cp >= 32 && cp < 127 {
+                if (32..127).contains(&cp) {
                     let c = char::from_u32(u32::from(cp)).unwrap();
                     writeln!(writer, "Character='{c}'")?;
                 } else {

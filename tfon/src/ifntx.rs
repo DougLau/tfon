@@ -67,9 +67,7 @@ impl<'p> Parser<'p> {
             }
             Some(("codepoint", val)) => {
                 let cp = val.split_ascii_whitespace().next().unwrap_or(val);
-                u16::from_str(cp).ok().and_then(|cp| {
-                    Some(Prop::CodePoint(cp))
-                })
+                u16::from_str(cp).ok().map(Prop::CodePoint)
             }
             Some((key, _val)) => Some(Prop::Unknown(key)),
             _ => self.character(line),

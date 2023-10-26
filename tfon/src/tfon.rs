@@ -166,10 +166,7 @@ pub fn write<'a, W: Write>(
         .iter()
         .find_map(|v| v.font_name())
         .ok_or(Error::Expected("font_name"))?;
-    let font_number = props
-        .iter()
-        .find_map(|v| v.font_number())
-        .unwrap_or(1);
+    let font_number = props.iter().find_map(|v| v.font_number()).unwrap_or(1);
     let char_spacing = props
         .iter()
         .find_map(|v| v.char_spacing())
