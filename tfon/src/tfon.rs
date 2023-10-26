@@ -1,4 +1,31 @@
-//! Parse and write fonts in `.tfon` format
+//! Parse and write fonts in `tfon` format
+//!
+//! A `tfon` font can be created in any text editor:
+//! # Example
+//! ```text
+//! font_name: tfon example
+//! font_number: 2
+//! char_spacing: 1
+//! line_spacing: 3
+//!
+//! ch: 52 4
+//! ...@@@.
+//! ..@.@@.
+//! .@..@@.
+//! @...@@.
+//! @@@@@@@
+//! ....@@.
+//! ....@@.
+//!
+//! ch: 65 A
+//! .@@@@.
+//! @@..@@
+//! @@..@@
+//! @@@@@@
+//! @@..@@
+//! @@..@@
+//! @@..@@
+//! ```
 use crate::common::{Bitmap, Error, Prop, Result};
 use std::io::Write;
 use std::str::{FromStr, Lines};
@@ -26,7 +53,7 @@ const SYMBOL: &[&str] = &[
     "ô", "õ", "ö", "÷", "ø", "ù", "ú", "û", "ü", "ý", "þ", "ÿ",
 ];
 
-/// Parser for `.tfon` format
+/// Parser for `tfon` format
 pub struct Parser<'p> {
     /// Lines to parse
     lines: Lines<'p>,
@@ -43,13 +70,10 @@ impl<'p> Iterator for Parser<'p> {
 }
 
 impl<'p> Parser<'p> {
-    /// Create a new `.tfon` parser
+    /// Create a new `tfon` parser
     pub fn new(buf: &'p str) -> Self {
         let lines = buf.lines();
-        Parser {
-            lines,
-            line: None,
-        }
+        Parser { lines, line: None }
     }
 
     /// Get the next line
@@ -77,13 +101,13 @@ impl<'p> Parser<'p> {
         match line.split_once(": ") {
             Some(("font_name", val)) => Some(Prop::FontName(val)),
             Some(("font_number", val)) => {
-                u8::from_str(val).ok().map(|n| Prop::FontNumber(n))
+                u8::from_str(val).ok().map(Prop::FontNumber)
             }
             Some(("char_spacing", val)) => {
-                u8::from_str(val).ok().map(|n| Prop::CharSpacing(n))
+                u8::from_str(val).ok().map(Prop::CharSpacing)
             }
             Some(("line_spacing", val)) => {
-                u8::from_str(val).ok().map(|n| Prop::LineSpacing(n))
+                u8::from_str(val).ok().map(Prop::LineSpacing)
             }
             Some(("ch", val)) => {
                 val.split_once(' ').and_then(|(cp, symbol)| {
@@ -132,7 +156,7 @@ fn row_pixels(line: &str) -> impl Iterator<Item = bool> + '_ {
     line.chars().map(|c| c == '@')
 }
 
-/// Write a font to a `.tfon` writer
+/// Write a font in `tfon` format
 pub fn write<'a, W: Write>(
     mut writer: W,
     mut props: impl Iterator<Item = Prop<'a>>,

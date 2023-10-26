@@ -39,9 +39,13 @@ pub enum Prop<'a> {
     FontName(&'a str),
     /// Font number
     FontNumber(u8),
-    /// Spacing between characters
+    /// Font height (pixels)
+    FontHeight(u8),
+    /// Font width (pixels)
+    FontWidth(u8),
+    /// Pixel spacing between characters
     CharSpacing(u8),
-    /// Spacing between lines
+    /// Pixel spacing between lines
     LineSpacing(u8),
     /// Baseline of characters
     Baseline(u8),
