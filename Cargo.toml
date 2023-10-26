@@ -1,5 +1,5 @@
 [workspace]
-members = ["tfon", "fonto"]
+members = ["tfon", "fontu"]
 resolver = "2"
 
 [workspace.package]
