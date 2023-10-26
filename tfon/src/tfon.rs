@@ -159,18 +159,23 @@ fn row_pixels(line: &str) -> impl Iterator<Item = bool> + '_ {
 /// Write a font in `tfon` format
 pub fn write<'a, W: Write>(
     mut writer: W,
-    mut props: impl Iterator<Item = Prop<'a>>,
+    props: impl Iterator<Item = Prop<'a>>,
 ) -> Result<()> {
+    let props: Vec<_> = props.collect();
     let font_name = props
+        .iter()
         .find_map(|v| v.font_name())
         .ok_or(Error::Expected("font_name"))?;
     let font_number = props
+        .iter()
         .find_map(|v| v.font_number())
-        .ok_or(Error::Expected("font_number"))?;
+        .unwrap_or(1);
     let char_spacing = props
+        .iter()
         .find_map(|v| v.char_spacing())
         .ok_or(Error::Expected("char_spacing"))?;
     let line_spacing = props
+        .iter()
         .find_map(|v| v.line_spacing())
         .ok_or(Error::Expected("line_spacing"))?;
     writeln!(writer, "font_name: {font_name:64}")?;
@@ -207,7 +212,7 @@ pub fn write<'a, W: Write>(
                     }
                 }
             }
-            _ => break,
+            _ => (),
         }
     }
     Ok(())

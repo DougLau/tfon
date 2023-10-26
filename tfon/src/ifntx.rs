@@ -1,4 +1,7 @@
 //! Parse fonts in `ifnt` (X) format
+//!
+//! This is an obsolete font format which is sort of half way between `ifnt`
+//! and `tfon`.  Writing is not supported.
 use crate::common::{Bitmap, Prop};
 use std::str::{FromStr, Lines};
 

@@ -17,8 +17,14 @@ struct Args {
 #[derive(FromArgs, PartialEq, Debug)]
 #[argh(subcommand)]
 enum Command {
+    Ifnt(IfntCommand),
     Tfon(TfonCommand),
 }
+
+/// convert font to ifnt format
+#[derive(Clone, Copy, FromArgs, PartialEq, Debug)]
+#[argh(subcommand, name = "ifnt")]
+struct IfntCommand {}
 
 /// convert font to tfon format
 #[derive(Clone, Copy, FromArgs, PartialEq, Debug)]
@@ -57,18 +63,38 @@ impl<'a> PropIter<'a> {
     }
 }
 
+impl IfntCommand {
+    fn convert(self) -> Result<()> {
+        let mut buf = String::with_capacity(1024);
+        tfon::ifnt::write(stdout(), font_properties(&mut buf)?.into_iter())?;
+        Ok(())
+    }
+}
+
 impl TfonCommand {
     fn convert(self) -> Result<()> {
         let mut buf = String::with_capacity(1024);
-        if stdin().is_terminal() {
-            let props = PropIter::new(&buf);
-            tfon::tfon::write(stdout(), props)?;
-        } else {
-            stdin().read_to_string(&mut buf)?;
-            let props = tfon::ifntx::Parser::new(&buf);
-            tfon::tfon::write(stdout(), props)?;
-        };
+        tfon::tfon::write(stdout(), font_properties(&mut buf)?.into_iter())?;
         Ok(())
+    }
+}
+
+/// Create a vec of font properties
+fn font_properties(buf: &mut String) -> Result<Vec<Prop>> {
+    if stdin().is_terminal() {
+        Ok(PropIter::new(buf).collect())
+    } else {
+        stdin().read_to_string(buf)?;
+        // What format is this font?
+        if buf.starts_with("[FontInfo]") {
+            Ok(tfon::ifnt::Parser::new(buf).collect())
+        } else if buf.starts_with("name: ") {
+            Ok(tfon::ifntx::Parser::new(buf).collect())
+        } else if buf.starts_with("font_name: ") {
+            Ok(tfon::tfon::Parser::new(buf).collect())
+        } else {
+            Err(tfon::Error::UnknownFormat())?
+        }
     }
 }
 
@@ -76,6 +102,7 @@ impl Args {
     /// Run selected command
     fn run(self) -> Result<()> {
         match &self.cmd {
+            Command::Ifnt(ifnt) => ifnt.convert(),
             Command::Tfon(tfon) => tfon.convert(),
         }
     }

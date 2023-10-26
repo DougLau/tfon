@@ -10,6 +10,9 @@ pub enum Error {
 
     #[error("Expected property '{0}'")]
     Expected(&'static str),
+
+    #[error("Unknown font format")]
+    UnknownFormat(),
 }
 
 /// Result type
@@ -18,7 +21,7 @@ pub(crate) type Result<T> = std::result::Result<T, Error>;
 /// Bitmap of pixels
 pub struct Bitmap {
     /// Height in pixels
-    height: u8,
+    pub(crate) height: u8,
     /// Width in pixels
     pub(crate) width: u8,
     /// Vec of pixels
@@ -49,6 +52,8 @@ pub enum Prop<'a> {
     LineSpacing(u8),
     /// Baseline of characters
     Baseline(u8),
+    /// Maximum character number
+    MaxCharNumber(u16),
     /// Character code point
     CodePoint(u16),
     /// Character bitmap
@@ -135,6 +140,23 @@ impl<'a> Prop<'a> {
     pub fn line_spacing(&self) -> Option<u8> {
         match self {
             Prop::LineSpacing(ls) => Some(*ls),
+            _ => None,
+        }
+    }
+
+    /// Get font height
+    pub fn font_height(&self) -> Option<u8> {
+        match self {
+            Prop::FontHeight(fh) => Some(*fh),
+            Prop::Bitmap(bmap) => Some(bmap.height),
+            _ => None,
+        }
+    }
+
+    /// Get code point
+    pub fn code_point(&self) -> Option<u16> {
+        match self {
+            Prop::CodePoint(cp) => Some(*cp),
             _ => None,
         }
     }

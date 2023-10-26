@@ -4,6 +4,7 @@
 #![forbid(unsafe_code)]
 
 mod common;
+pub mod ifnt;
 pub mod ifntx;
 pub mod tfon;
 
