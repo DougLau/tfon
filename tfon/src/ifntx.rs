@@ -66,17 +66,9 @@ impl<'p> Parser<'p> {
                 u8::from_str(val).ok().map(Prop::LineSpacing)
             }
             Some(("codepoint", val)) => {
-                val.split_once(' ').and_then(|(cp, ch)| {
-                    u16::from_str(cp).ok().and_then(|cp| {
-                        if ch.len() == 1
-                            && ch.chars().next()
-                                == char::from_u32(u32::from(cp))
-                        {
-                            Some(Prop::CodePoint(cp))
-                        } else {
-                            None
-                        }
-                    })
+                let cp = val.split_ascii_whitespace().next().unwrap_or(val);
+                u16::from_str(cp).ok().and_then(|cp| {
+                    Some(Prop::CodePoint(cp))
                 })
             }
             Some((key, _val)) => Some(Prop::Unknown(key)),
