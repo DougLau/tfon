@@ -180,8 +180,8 @@ pub fn write<'a, W: Write>(
     let mut ch = true;
     for prop in props {
         match prop {
-            Prop::CodePoint(cp) => match (ch, SYMBOL.get(usize::from(cp))) {
-                (true, Some(symbol)) => {
+            Prop::CodePoint(cp) => match SYMBOL.get(usize::from(cp)) {
+                Some(symbol) => {
                     ch = false;
                     writeln!(writer)?;
                     writeln!(writer, "ch: {cp} {symbol}")?;
