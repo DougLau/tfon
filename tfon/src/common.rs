@@ -87,6 +87,16 @@ impl Bitmap {
         }
     }
 
+    /// Create a bitmap from bits
+    pub fn from_bits(height: u8, width: u8, bmap: Vec<u8>) -> Option<Self> {
+        let len = usize::from(height) * usize::from(width);
+        if bmap.len() == (len + 7) / 8 {
+            Some(Bitmap { height, width, bmap })
+        } else {
+            None
+        }
+    }
+
     /// Get pixel height
     pub fn height(&self) -> u8 {
         self.height
