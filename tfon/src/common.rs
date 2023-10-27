@@ -87,6 +87,16 @@ impl Bitmap {
         }
     }
 
+    /// Get pixel height
+    pub fn height(&self) -> u8 {
+        self.height
+    }
+
+    /// Get pixel width
+    pub fn width(&self) -> u8 {
+        self.width
+    }
+
     /// Push a row of pixels to the bitmap
     pub(crate) fn push_row(&mut self, row: impl Iterator<Item = bool>) {
         let width = usize::from(self.width);
@@ -108,6 +118,11 @@ impl Bitmap {
     /// Get an iterator of all pixels
     pub(crate) fn pixels(&self) -> impl Iterator<Item = bool> + '_ {
         PixIter { bmap: self, pos: 0 }
+    }
+
+    /// Convert into a Vec of packed bits
+    pub fn into_bits(self) -> Vec<u8> {
+        self.bmap
     }
 }
 
