@@ -167,14 +167,8 @@ pub fn write<'a, W: Write>(
         .find_map(|v| v.font_name())
         .ok_or(Error::Expected("font_name"))?;
     let font_number = props.iter().find_map(|v| v.font_number()).unwrap_or(1);
-    let char_spacing = props
-        .iter()
-        .find_map(|v| v.char_spacing())
-        .unwrap_or(0);
-    let line_spacing = props
-        .iter()
-        .find_map(|v| v.line_spacing())
-        .unwrap_or(0);
+    let char_spacing = props.iter().find_map(|v| v.char_spacing()).unwrap_or(0);
+    let line_spacing = props.iter().find_map(|v| v.line_spacing()).unwrap_or(0);
     writeln!(writer, "font_name: {font_name:64}")?;
     writeln!(writer, "font_number: {font_number}")?;
     writeln!(writer, "char_spacing: {char_spacing}")?;

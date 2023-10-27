@@ -54,21 +54,19 @@ impl<'p> Parser<'p> {
         let mut tok = line.split(' ');
         match tok.next() {
             Some("FONT") => tok.next().map(Prop::FontName),
-            Some("SIZE") => { tok.next().and_then(|sz| {
-                u8::from_str(sz).ok().map(Prop::FontHeight)
-            })}
-            Some("FONT_ASCENT") => { tok.next().and_then(|sz| {
-                u8::from_str(sz).ok().map(Prop::Baseline)
-            })}
-            Some("ENCODING") => { tok.next().and_then(|sz| {
-                u16::from_str(sz).ok().map(Prop::CodePoint)
-            })}
-            Some("DWIDTH") => { tok.next().and_then(|w| {
-                match u8::from_str(w) {
-                    Ok(width) => self.character(width),
-                    _ => None,
-                }
-            })}
+            Some("SIZE") => tok
+                .next()
+                .and_then(|sz| u8::from_str(sz).ok().map(Prop::FontHeight)),
+            Some("FONT_ASCENT") => tok
+                .next()
+                .and_then(|sz| u8::from_str(sz).ok().map(Prop::Baseline)),
+            Some("ENCODING") => tok
+                .next()
+                .and_then(|sz| u16::from_str(sz).ok().map(Prop::CodePoint)),
+            Some("DWIDTH") => tok.next().and_then(|w| match u8::from_str(w) {
+                Ok(width) => self.character(width),
+                _ => None,
+            }),
             _ => Some(Prop::Unknown(line)),
         }
     }
@@ -119,7 +117,7 @@ impl<'a> Iterator for HexBitIter<'a> {
         if self.bit > 0b0001 {
             self.bit >>= 1;
             Some((self.nybble & self.bit) != 0)
-        } else if self.line.len() > 0 {
+        } else if !self.line.is_empty() {
             self.bit = 0b1000;
             self.nybble = hex_nybble(self.line[0]);
             self.line = &self.line[1..];
@@ -134,16 +132,20 @@ impl<'a> HexBitIter<'a> {
     /// Create a new hexadecimal bit iterator
     fn new(line: &'a str) -> Self {
         let line = line.as_bytes();
-        HexBitIter { line, nybble: 0, bit: 0 }
+        HexBitIter {
+            line,
+            nybble: 0,
+            bit: 0,
+        }
     }
 }
 
 /// Get byte value of a hexadecimal nybble (char)
 fn hex_nybble(v: u8) -> u8 {
-    if v >= 48 && v <= 57 {
+    if (48..=57).contains(&v) {
         // '0' - '9'
         v - 48
-    } else if v >= 65 && v <= 70 {
+    } else if (65..=70).contains(&v) {
         // 'A' - 'F'
         v + 10 - 65
     } else {
