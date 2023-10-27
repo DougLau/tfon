@@ -3,6 +3,7 @@
 //! ` ↖ ↙ `
 #![forbid(unsafe_code)]
 
+pub mod bdf;
 mod common;
 pub mod ifnt;
 pub mod ifntx;

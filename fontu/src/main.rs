@@ -86,7 +86,9 @@ fn font_properties(buf: &mut String) -> Result<Vec<Prop>> {
     } else {
         stdin().read_to_string(buf)?;
         // What format is this font?
-        if buf.starts_with("[FontInfo]") {
+        if buf.starts_with("STARTFONT") {
+            Ok(tfon::bdf::Parser::new(buf).collect())
+        } else if buf.starts_with("[FontInfo]") {
             Ok(tfon::ifnt::Parser::new(buf).collect())
         } else if buf.starts_with("name: ") {
             Ok(tfon::ifntx::Parser::new(buf).collect())
