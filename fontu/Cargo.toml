@@ -1,6 +1,11 @@
 [package]
 name = "fontu"
+description = "Bitmap font converter"
 license = "MIT OR Apache-2.0"
+documentation = "https://docs.rs/fontu"
+repository = "https://github.com/DougLau/tfon/fontu"
+readme = "README.md"
+keywords = ["font", "bitmap", "conversion", "cli"]
 version.workspace = true
 edition.workspace = true
 

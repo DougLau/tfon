@@ -1,6 +1,11 @@
 [package]
 name = "tfon"
+description = "Bitmap font parsing / conversion"
 license = "MIT OR Apache-2.0"
+documentation = "https://docs.rs/tfon"
+repository = "https://github.com/DougLau/tfon/tfon"
+readme = "README.md"
+keywords = ["font", "bitmap"]
 version.workspace = true
 edition.workspace = true
 
