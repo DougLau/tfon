@@ -11,7 +11,7 @@ cargo install fontu
 Converting a font from [bdf] to tfon format:
 
 ```shell
-fontu tfon < Tamzen8x16b.bdf > Tamzen8x16b.bdf
+fontu tfon < Tamzen8x16b.bdf > Tamzen8x16b.tfon
 ```
 
 
