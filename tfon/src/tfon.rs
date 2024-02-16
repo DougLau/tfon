@@ -169,7 +169,7 @@ pub fn write<'a, W: Write>(
     let font_number = props.iter().find_map(|v| v.font_number()).unwrap_or(1);
     let char_spacing = props.iter().find_map(|v| v.char_spacing()).unwrap_or(0);
     let line_spacing = props.iter().find_map(|v| v.line_spacing()).unwrap_or(0);
-    writeln!(writer, "font_name: {font_name:64}")?;
+    writeln!(writer, "font_name: {font_name:.64}")?;
     writeln!(writer, "font_number: {font_number}")?;
     writeln!(writer, "char_spacing: {char_spacing}")?;
     writeln!(writer, "line_spacing: {line_spacing}")?;
