@@ -15,10 +15,10 @@ parts to the file: a **header** and a list of **characters**.
 
 The header contains 4 key/value pairs:
 
-**font_name**: Name of font (up to 64 characters)
-**font_number**: Integer number, between 1 and 255
-**char_spacing**: Horizontal pixel spacing between characters
-**line_spacing**: Vertical pixel spacing between lines
+- **font_name**: Name of font (up to 64 characters)
+- **font_number**: Integer number, between 1 and 255
+- **char_spacing**: Horizontal pixel spacing between characters
+- **line_spacing**: Vertical pixel spacing between lines
 
 ```text
 font_name: Example font
@@ -30,10 +30,9 @@ line_spacing: 3
 The character list can have between 1 and 255 values.  Each character has a
 **ch** definition and a **pixel grid**:
 
-**ch**: Character number, followed by its _symbol_
-
-**Pixel grid** is a rectangular section of **.** (off) / **@** (on) of the
-character bitmap.  All characters in a font must have the same height.
+- **ch**: Character number, followed by its _symbol_
+- **Pixel grid** is a rectangular section of **.** (off) / **@** (on) of the
+  character bitmap.  All characters in a font must have the same height.
 
 ```text
 ch: 52 4
