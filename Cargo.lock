@@ -41,7 +41,7 @@ dependencies = [
 
 [[package]]
 name = "fontu"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "anyhow",
  "argh",
@@ -99,7 +99,7 @@ dependencies = [
 
 [[package]]
 name = "tfon"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "thiserror",
 ]
