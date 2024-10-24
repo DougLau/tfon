@@ -10,7 +10,7 @@ Format   | Import | Export |
 
 ## `.tfon` Format
 
-Any text editor can be used to create fonts in this format.  There are two
+Fonts in this format can be created with any text editor.  There are two
 parts to the file: a **header** and a list of **characters**.
 
 The header contains 4 key/value pairs:
@@ -68,7 +68,7 @@ ch: 52 4
 
 ### Symbols (Latin-1)
 
-`X` | `8X` | `9X` | `AX` | `BX` | `CX` | `DX` | `EX` | `7X`
+`X` | `8X` | `9X` | `AX` | `BX` | `CX` | `DX` | `EX` | `FX`
 ----|------|------|------|------|------|------|------|-----
 `0` | PAD  | DCS  | NBSP | °    | À    | Ð    | à    | ð
 `1` | HOP  | PU1  | ¡    | ±    | Á    | Ñ    | á    | ñ
