@@ -12,4 +12,4 @@ edition.workspace = true
 [dependencies]
 anyhow = "1.0"
 argh = "0.1"
-tfon = "0.1"
+tfon = "0.2"
