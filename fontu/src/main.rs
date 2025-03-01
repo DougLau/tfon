@@ -3,7 +3,7 @@
 
 use anyhow::Result;
 use argh::FromArgs;
-use std::io::{stdin, stdout, IsTerminal, Read};
+use std::io::{IsTerminal, Read, stdin, stdout};
 use tfon::Prop;
 
 /// Command-line arguments

@@ -110,7 +110,7 @@ struct HexBitIter<'a> {
     bit: u8,
 }
 
-impl<'a> Iterator for HexBitIter<'a> {
+impl Iterator for HexBitIter<'_> {
     type Item = bool;
 
     fn next(&mut self) -> Option<Self::Item> {

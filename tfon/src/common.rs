@@ -60,7 +60,7 @@ pub enum Prop<'a> {
     Bitmap(Bitmap),
 }
 
-impl<'a> Iterator for PixIter<'a> {
+impl Iterator for PixIter<'_> {
     type Item = bool;
 
     fn next(&mut self) -> Option<bool> {
