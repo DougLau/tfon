@@ -5,9 +5,10 @@ license = "MIT OR Apache-2.0"
 documentation = "https://docs.rs/tfon/latest/tfon/"
 repository = "https://github.com/DougLau/tfon/"
 readme = "README.md"
+categories = ["parser-implementations"]
 keywords = ["font", "bitmap"]
 version.workspace = true
 edition.workspace = true
 
 [dependencies]
-thiserror = "2"
+thiserror = "2.0.12"
