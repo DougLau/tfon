@@ -80,7 +80,7 @@ impl TfonCommand {
 }
 
 /// Create a vec of font properties
-fn font_properties(buf: &mut String) -> Result<Vec<Prop>> {
+fn font_properties(buf: &mut String) -> Result<Vec<Prop<'_>>> {
     if stdin().is_terminal() {
         Ok(PropIter::new(buf).collect())
     } else {

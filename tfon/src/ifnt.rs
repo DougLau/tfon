@@ -48,10 +48,10 @@ impl<'p> Parser<'p> {
     /// Parse one property
     fn prop(&mut self) -> Option<Prop<'p>> {
         let line = self.next_line()?;
-        if let Some(end) = line.strip_prefix("[Char_") {
-            if let Some(cp) = end.strip_suffix(']') {
-                return u16::from_str(cp).ok().map(Prop::CodePoint);
-            }
+        if let Some(end) = line.strip_prefix("[Char_")
+            && let Some(cp) = end.strip_suffix(']')
+        {
+            return u16::from_str(cp).ok().map(Prop::CodePoint);
         }
         match line.split_once('=') {
             Some(("FontName", val)) => Some(Prop::FontName(val)),
@@ -99,10 +99,10 @@ impl<'p> Parser<'p> {
 
 /// Parse a bitmap row
 fn parse_row(line: &str) -> impl Iterator<Item = bool> + '_ {
-    if line.starts_with("row") {
-        if let Some((_key, val)) = line.split_once('=') {
-            return val.chars().filter_map(pixel_filter_map);
-        }
+    if line.starts_with("row")
+        && let Some((_key, val)) = line.split_once('=')
+    {
+        return val.chars().filter_map(pixel_filter_map);
     }
     "".chars().filter_map(pixel_filter_map)
 }
@@ -143,7 +143,7 @@ pub fn write<'a, W: Write>(
     let max_char_num = props
         .iter()
         .filter_map(|v| v.code_point())
-        .last()
+        .next_back()
         .ok_or(Error::Expected("MaxCharNumber"))?;
     writeln!(writer, "[FontInfo]")?;
     writeln!(writer, "FontName={font_name:64}")?;
